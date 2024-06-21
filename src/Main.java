@@ -2,10 +2,12 @@
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Main {
     private static final Map<Character, Integer> RomanToArabic = new HashMap<>();
     private static final Map<Integer, String> ArabicToRoman = new HashMap<>();
+
     static {
         RomanToArabic.put('I', 1);
         RomanToArabic.put('V', 5);
@@ -19,7 +21,8 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            String input = "1 + 2";
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
             System.out.println(calc(input));
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -29,22 +32,29 @@ public class Main {
     public static String calc(String input) throws Exception {
         input = input.trim();
         String[] parts = input.split(" ");
+
         if (parts.length != 3) {
             throw new Exception("throws Exception //Неверный формат ввода.");
         }
+
         String aStr = parts[0];
         String _op = parts[1];
         String bStr = parts[2];
+
         boolean isRoman = isRoman(aStr) && isRoman(bStr);
         boolean isArabic = isArabic(aStr) && isArabic(bStr);
+
         if (!(isRoman || isArabic)) {
-            throw new Exception("throws Exception Разные системы счисления.");
+            throw new Exception("throws Exception //Разные системы счисления.");
         }
+
         int a=isRoman ? RomanToArabic(aStr) : Integer.parseInt(aStr);
         int b=isRoman ? RomanToArabic(bStr) : Integer.parseInt(bStr);
+
         if (a<1 || a>10 || b<1 || b>10) {
-            throw new Exception("throws Exception Числа должны быть от 1 до 10 включительно.");
+            throw new Exception("throws Exception //Числа должны быть от 1 до 10 включительно.");
         }
+
         int result;
         switch (_op) {
             case "+":
@@ -60,11 +70,11 @@ public class Main {
                 result = a/b;
                 break;
             default:
-                throw new Exception("throws Exception Неверный оператор.");
+                throw new Exception("throws Exception //Неверный оператор.");
         }
         if (isRoman) {
             if (result<1) {
-                throw new Exception("throws Exception Результат работы с римскими числами должен быть больше нуля.");
+                throw new Exception("throws Exception //Результат работы с римскими числами должен быть больше нуля.");
             }
             else {
                 return ArabicToRoman(result);
