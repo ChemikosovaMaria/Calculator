@@ -3,10 +3,11 @@
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Main {
     private static final Map<Character, Integer> RomanToArabic = new HashMap<>();
-    private static final Map<Integer, String> ArabicToRoman = new HashMap<>();
+    private static final TreeMap<Integer, String> ArabicToRoman = new TreeMap<>();
 
     static {
         RomanToArabic.put('I', 1);
@@ -17,6 +18,10 @@ public class Main {
         ArabicToRoman.put(5, "V");
         ArabicToRoman.put(9, "IX");
         ArabicToRoman.put(10, "X");
+        ArabicToRoman.put(40, "XL");
+        ArabicToRoman.put(50, "L");
+        ArabicToRoman.put(90, "XC");
+        ArabicToRoman.put(100, "C");
     }
 
     public static void main(String[] args) {
@@ -117,10 +122,10 @@ public class Main {
 
     private static String ArabicToRoman(int number) {
         StringBuilder result = new StringBuilder();
-        for (Integer key : ArabicToRoman.keySet()) {
-            while (number >= key) {
-                result.append(ArabicToRoman.get(key));
-                number -= key;
+        for (Map.Entry<Integer, String> entry : ArabicToRoman.descendingMap().entrySet()) {
+            while (number >= entry.getKey()) {
+                result.append(entry.getValue());
+                number -= entry.getKey();
             }
         }
         return result.toString();
